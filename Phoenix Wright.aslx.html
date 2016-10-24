@@ -1,0 +1,1390 @@
+<!--Saved by Quest 5.6.5783.24153-->
+<asl version="550">
+  <include ref="English.aslx" />
+  <include ref="Core.aslx" />
+  <game name="Phoenix Wright">
+    <gameid>f2db3d33-fc07-4cc7-a27a-bc9af641bb58</gameid>
+    <version>1.0</version>
+    <firstpublished>2016</firstpublished>
+    <author>Sina Siddiqi</author>
+    <subtitle>53-230 Assignment #1</subtitle>
+    <defaultbackground>WhiteSmoke</defaultbackground>
+    <setbackgroundopacity type="boolean">false</setbackgroundopacity>
+    <feature_asktell />
+  </game>
+  <object name="Dorm room">
+    <inherit name="editor_room" />
+    <descprefix>You are in</descprefix>
+    <objectslistprefix type="string"></objectslistprefix>
+    <exitslistprefix>You can go to the</exitslistprefix>
+    <beforefirstenter type="script"><![CDATA[
+      PrintCentered ("<b>Dizas Spearbone. March 2nd, 11:00pm</b><br/>")
+    ]]></beforefirstenter>
+    <firstenter type="script"><![CDATA[
+      msg ("Of course you're in a dorm room, Dizas. This is your room and you almost never leave it.<br/>")
+      msg ("As you sit on your desk, with your computer on and your assignment halfway done, you look around. It's a pretty small room, only just enough space for two desks and beds.<br/>")
+      msg ("You turn around and look at your side of the room, it's clean and organized just the way you like it. Then you glance over at Kip's side. His is as messy as everything else in his life. You stare at him sleeping with his mouth dangling open, with disgust.<br/>")
+      msg ("You should be working, but you suddenly realize you're starving. You haven't eaten all day! Why hasn't Kip ordered anything yet? Shout at him to wake him up already!<br/>")
+    ]]></firstenter>
+    <changedtype type="script">
+    </changedtype>
+    <beforeenter type="script"><![CDATA[
+      wright.dorm_visited = true
+      player.visible = false
+      if (victim.dead = true) {
+        if (wright.dorm_visited = false) {
+          PrintCentered ("<br><br><b>Phoenix Wright. March 3rd, 12:30pm.</b></br>")
+        }
+        else {
+          PrintCentered ("<br><br><b>Phoenix Wright. March 3rd, 04:00pm.</b></br>")
+        }
+      }
+    ]]></beforeenter>
+    <enter type="script"><![CDATA[
+      if (victim.dead = true) {
+        msg ("The air is filled with the overwhelming smell of Chinese food. You're not sure how long you can stay in this room without feeling sick.")
+        msg ("The room itself is a strange sight too. On one side of the room, is a clean bed with almost nothing on it. The bed on the other side is dirty and covered in clothes and a <b>suspicious</b> black bag. On one of the desks lies the root of the horrid smell: a box of cold noodles and several <b>mustard</b> and <b>soy sauce</b> packs spread all over the surface.")
+        floormate.visible = true
+        msg ("You're ready to begin your investigation when in walks a guy wearing a stylish suit and glasses. His whole demeanor makes him look imposing. He comes towards you.</br>")
+        msg ("<b>Mysterious guy:</b> Well hello there.")
+        msg ("<b>Wright:</b> H-hey, um- I'm just-")
+        msg ("<b>Mysterious guy:</b> I hope you're with the police and not just another tourist wanting to see the scene of the murder. Our school's getting a lot of bad rep as it is, we don't need people like you to make everything worse.")
+        msg ("<b>Wright:</b> Ah no, I'm actually Treblemike's defense attorney.")
+        msg ("<b>Mysterious guy:</b> Treble-who? Ah, the guy who killed Dizas! Okay well, I'm one of their floormates.")
+        msg ("<b>Wright:</b> They haven't proven him guilty yet!")
+        msg ("<b>Mysterious guy:</b> Oh yes, yes. Well I suppose it would aid your research if I answered some of the questions you have, hmm?")
+        msg ("Ugh. You really don't like this guy, but I suppose you need his help if you're to figure this whole case out.")
+        msg ("<b>Wright:</b> Yeah, if you could, that would be a huge help.")
+      }
+    ]]></enter>
+    <object name="Computer">
+      <inherit name="editor_object" />
+      <look type="string"></look>
+      <visible />
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+        <value>Use</value>
+      </displayverbs>
+      <scenery />
+      <usedefaultprefix />
+      <usestandardverblist type="boolean">false</usestandardverblist>
+      <feature_usegive />
+      <use type="script"><![CDATA[
+        if (defendant.asleep=true) {
+          msg ("You <i>really</i> want to get started, but you're starving. Why the hell hasn't Kip gotten you food yet?")
+        }
+        else {
+          msg ("You continue your assignment, your mind never wavering from the task at hand. Your work means everything to you. </br>.</br>..</br>...</br></br><b>Kip:</b> DIZAAAAAS!</br>You turn around to face Kip, ready to punch his face for disturbing you. </br><b>Dizas:</b> WHAT IS IT YOU IDIOT? </br><b>Kip:</b> ...umm... food's here.</br><i>He holds a bag out for you to take. </i>")
+          bag.visible = true
+        }
+      ]]></use>
+    </object>
+    <object name="victim">
+      <inherit name="editor_object" />
+      <inherit name="editor_player" />
+      <inherit name="male" />
+      <statusattributes type="stringdictionary" />
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <dying type="boolean">false</dying>
+      <dead type="boolean">false</dead>
+      <visible type="boolean">false</visible>
+      <alt type="stringlist">
+        <value>Dizas</value>
+      </alt>
+      <scenery />
+    </object>
+    <object name="defendant">
+      <inherit name="editor_object" />
+      <inherit name="male" />
+      <scenery />
+      <displayverbs type="stringlist" />
+      <alt type="stringlist">
+        <value>Kip</value>
+      </alt>
+      <asleep />
+      <attr name="in_custody" type="boolean">false</attr>
+      <attr name="asked_victim" type="boolean">false</attr>
+      <attr name="asked_bully" type="boolean">false</attr>
+      <attr name="asked_self" type="boolean">false</attr>
+      <attr name="asked_crime" type="boolean">false</attr>
+      <visible />
+      <inlobby type="boolean">false</inlobby>
+      <incourt type="boolean">false</incourt>
+      <onstand type="boolean">false</onstand>
+      <shoutat type="script"><![CDATA[
+        if (defendant.asleep = true) {
+          msg ("Kip wakes up with a fright. </br></br><b> Kip:</b> What is it, Dizas? </br> <b>Dizas:</b> Order Chinese. Now. </br> Kip rubs his face, struggling to get the drool off before you notice it. You did notice it of course, but like always, you let his oddity slide.</br><b> Kip:</b> The usual? </br> <b>Dizas:</b> Yeah.</br></br>He grabs his cellphone and dials  the number. Now that that's taken care of, you can finally get back to work.")
+          defendant.asleep = false
+        }
+        else if (victim.dying = true and victim.dead = false) {
+          msg ("You shout, and moments later you hear running, shouting, panic. </br> Someone tries to shake you, but you're already too numb to feel anything. You see a blurry version of Kip's face for a moment, but then it's gone. All you can see is a bright light. It's so bright. So overpowering. And then you see her.</br></br> <b>Dizas:</b><i> Mom?</i></br></br></br>")
+          victim.dead = true
+          RemoveObject (mustard pack)
+          RemoveObject (soy sauce pack)
+          RemoveObject (food)
+          ChangePOV (wright)
+          MoveObject (defendant, det)
+        }
+        else {
+          msg ("Kip: Aw geez, why you always gotta do that?")
+        }
+      ]]></shoutat>
+      <askdefault type="script"><![CDATA[
+        if (defendant.incourt = true) {
+          msg ("You can't just talk to anyone when court is in session!")
+        }
+        else if (victim.dead = true) {
+          msg ("<b>Kip: </b>Man I wish I could tell you about that, but I don't know much about anything. Heck, I don't even know if I'm innocent or not...</br><b>Wright: </b> Ack! Don't say that!")
+        }
+        else {
+          msg ("You don't ask Kip anything, ever. He's below you. The only way to talk to a guy like that is to shout at him.")
+        }
+      ]]></askdefault>
+      <ask type="scriptdictionary">
+        <item key="bully bullying"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else if (victim.dead = true and defendant.asked_victim = true) {
+            if (victim.dead=true) {
+              msg ("<b>Kip: </b>Honestly, it's not as bad as it sounds. Sure, he used to shout at me, force me to clean his stuff, order food and all that but I didn't matter one bit to me.")
+              msg ("<b>Wright: </b>He doesn't sound like a very good friend to me at all.")
+              msg ("<b>Kip: </b>He may not have been a good friend Mr. Wright, but he was the only friend I had. Nobody else would even talk to a guy like me. But Dizas didn't care. In fact, he even forced me to continue being his roommate for the last two years. That was the first time anyone asked me to do anything like that.")
+              msg ("<b>Wright: </b><i>sigh...</i>")
+              msg ("<b>Kip: </b> Besides, I suspect the guy didn't really have too many friends of his own anyway. He was in his room working all the time. I think I was his only friend too.")
+              msg ("<b>Wright: </b>Hmm...")
+              defendant.asked_bully = true
+            }
+          }
+          else if (victim.dead = false) {
+            msg ("You don't ask Kip anything, ever. He's below you. The only way to talk to a guy like that is to shout at him.")
+          }
+        ]]></item>
+        <item key="victim"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else if (victim.dead = true) {
+            msg ("<b>Kip: </b>Dizas, the guy who was killed, was my college rommate and best friend. He was really, really smart but had a pretty short temper as well. Though he and I didn't talk much so I can't tell you much else.")
+            msg ("<b>Wright: </b>WHAT?! He was your best friend and that's all you can tell me? ")
+            msg ("<b>Kip: </b>Yup.")
+            msg ("<b>Wright: </b>I need some more information if I'm supposed to help you in court! Did he have any enemies? Did anyone have any reason to hate him? What kind of guy was he? ")
+            msg ("<b>Kip: </b>Oh i don't really know anything about his enemies and all that. But well, he stayed in the room a lot, always studying, working on something. He'd only ever shout at me if he needed something.")
+            msg ("<b>Wright: </b>H-he <i>shouted</i> at you regularly?")
+            msg ("<b>Kip: </b>Oh yeah. You could say he was a bit of a <b>bully</b>, ha ha!")
+            msg ("<b>Wright: </b> WHAT DID YOU SAY?")
+            defendant.asked_victim = true
+          }
+          else if (victim.dead = false) {
+            msg ("You don't ask Kip anything, ever. He's below you. The only way to talk to a guy like that is to shout at him.")
+          }
+        ]]></item>
+        <item key="crime what happened yesterday last night murder"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else if (victim.dead = true) {
+            msg ("<b>Kip:</b> I'm honestly not too sure how and why Dizas died.")
+            msg ("<b>Wright:</b> What do you remember about what happened?")
+            msg ("<b>Kip:</b> Well, Dizas asked me to order food and I did. I went downstairs to take it from the delivery guy when it arrived. The food was in a bag, which I gave Dizas. He took the food out, ate a bit and then started choking.")
+            msg ("<b>Wright:</b> And did you touch anything in the bag or leave it somewhere or anything like that?")
+            msg ("<b>Kip:</b> Nope.")
+            msg ("<b>Wright:</b> Did you reognize the delivery guy?")
+            msg ("<b>Kip:</b> Hmm I didn't really look at him closely.")
+            msg ("</br>It looks like the defendant doesn't seem to know much about what happened. Maybe you should head over to <b>Detective Gumshoe</b> at <b>Criminal Affairs</b> and ask for more details.")
+            defendant.asked_crime = true
+            MakeExitVisible (dept_deten)
+            MakeExitVisible (dept_chinese)
+            MakeExitVisible (dept_dorm)
+            MakeExitVisible (deten_dorm)
+            MakeExitVisible (deten_dept)
+          }
+        ]]></item>
+        <item key="himself defendant kip"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else if (victim.dead = true) {
+            msg ("<b>Kip:</b> You might be wondering why a 30 year old guy like me is still a Junior at college.")
+            msg ("<b>Wright:</b>Actually I wasn't-")
+            msg ("<b>Kip:</b> Well you see I didn't do too well in college the first time I tried to get a degree. Then I tried for a second time. That didn't go so well either. So now-")
+            msg ("<b>Wright:</b> Ah okay okay. I get it. Could you tell me more about your relationship with the victim?")
+            msg ("<b>Kip: </b> Oh yeah. We've been roommates since freshman year. Dizas was actually my best friend.")
+            msg ("<b>Wright:</b> Well, glad we got the formalities out of the way....")
+            defendant.asked_self = true
+          }
+        ]]></item>
+      </ask>
+    </object>
+    <object name="food">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <attr name="feature_usegive" type="boolean">false</attr>
+      <take type="boolean">false</take>
+      <drop type="boolean">false</drop>
+      <attr name="looked_at" type="boolean">false</attr>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <ontake type="script">
+      </ontake>
+      <ingest type="script"><![CDATA[
+        if (soy sauce pack.added = true and mustard pack.added = true) {
+          victim.dying = true
+          msg ("<i>You ingest the food, savoring bite after bite.</i></br>.</br>..</br>...</br></br>Wait. You don't feel so good. It's getting harder to breathe. Your vision is blurring. This is a pain you've never known before. It's stabbing every part of your body, tearing you apart from the inside. </br></br>You need help. Yes, Kip can help. He'll know what to do. Where the hell is he?")
+        }
+        else {
+          msg ("You haven't added all the sauces yet! What good is Chinese food without tons of sauces?")
+        }
+      ]]></ingest>
+      <look type="script">
+        msg ("It looks disgusting. But for some reason, this is all you ever want to eat these days.")
+      </look>
+    </object>
+    <object name="soy sauce pack">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <added type="boolean">false</added>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <scenery type="boolean">false</scenery>
+      <take />
+      <add type="script"><![CDATA[
+        soy sauce pack.added = true
+        msg ("<i>You add the delicious sauce into the food.</i>")
+        if (soy sauce pack.added = true and mustard pack.added = true) {
+          msg ("</br>Woah, with all this sauce added in, you can't wait to ingest all this food")
+        }
+      ]]></add>
+    </object>
+    <object name="mustard pack">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <added type="boolean">false</added>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <attr name="feature_usegive" type="boolean">false</attr>
+      <scenery type="boolean">false</scenery>
+      <take />
+      <add type="script"><![CDATA[
+        mustard pack.added = true
+        msg ("<i>You add the delicious sauce into the food.</i></br>Man, if your dad knew you added mustard to everything you eat you'd be in big trouble. Luckily, only Kip knows about your obsession, and he's got no friends to tell.")
+        if (soy sauce pack.added = true and mustard pack.added = true) {
+          msg ("</br>Woah with all this sauce added in, you can't wait to ingest all this food")
+        }
+      ]]></add>
+    </object>
+    <object name="bag">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <attr name="looked_at" type="boolean">false</attr>
+      <take />
+      <takemsg>You snatch the bag from Kip's hand, dying to dig in.</takemsg>
+      <scenery type="boolean">false</scenery>
+      <drop type="boolean">false</drop>
+      <look type="script"><![CDATA[
+        if (bag.looked_at = false) {
+          bag.looked_at = true
+          food.visible = true
+          soy sauce pack.visible = true
+          mustard pack.visible = true
+          msg ("<i>You take the food out on your desk and throw the bag onto Kip's bed, not bothering to give it a second glance.</i></br>Several packs of soy sauce and mustard drop onto your desk. Now to add them in.</br>")
+        }
+      ]]></look>
+      <ontake type="script">
+      </ontake>
+      <ondrop type="script">
+      </ondrop>
+    </object>
+    <exit name="chinese_dorm" alias="Chinese Restaurant" to="Chinese">
+      <inherit name="westdirection" />
+      <visible type="boolean">false</visible>
+    </exit>
+    <exit name="dept_dorm" alias="Criminal Affairs Department" to="Dept">
+      <inherit name="northdirection" />
+      <visible type="boolean">false</visible>
+    </exit>
+    <exit name="deten_dorm" alias="Detention Center" to="det">
+      <inherit name="eastdirection" />
+      <visible type="boolean">false</visible>
+    </exit>
+    <object name="floormate">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <scenery />
+      <attr name="asked_defendant" type="boolean">false</attr>
+      <attr name="asked_victim" type="boolean">false</attr>
+      <onstand type="boolean">false</onstand>
+      <alt type="stringlist">
+        <value>mysterious guy</value>
+        <value>robert</value>
+      </alt>
+      <askdefault type="script"><![CDATA[
+        if (defendant.incourt = true) {
+          msg ("You can't just talk to anyone when court is in session!")
+        }
+        else {
+          msg ("He responds, "Hmm, sorry, can't help you there. I'd say you should ask me more about the <i>basics</i>, since you know, I'm not directly involved in the crime."")
+        }
+      ]]></askdefault>
+      <ask type="scriptdictionary">
+        <item key="floormate himself"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else if (floormate.asked_defendant and floormate.asked_victim) {
+            msg ("<b>Wright:</b> Now will you tell me who you are?")
+            msg ("<b>Mysterious guy:</b> Heh. I suppose so, the name's Robert, and I'm one of the witnesses to the crime.")
+            msg ("<b>Wright:</b> WHAAATT!?")
+            msg ("<b>Robert:</b> Oh yes mister attorney. Why do you think I've been so evasive of your questions? The cops didn't want me talking to you. Makes sense of course, the fact that you're defending a murderer makes you dangerous.")
+            msg ("<b>Wright:</b> You're saying you saw Kip kill him?")
+            msg ("<b>Robert:</b> I did. And I'll testify as much tomorrow. Good day, mister attorney.")
+            floormate.visible = false
+            msg ("</br><i>Darn it</i>, you think, <i>if he shows up in court tomorrow, things will get really bad for us.</i> You should <b>examine</b> this place and collect as much evidence as you can find to make your case for tomorrow's trial.")
+            defendants desk.visible = true
+            victims desk.visible = true
+            defendants bed.visible = true
+          }
+          else {
+            msg ("<b>Mysterious guy: </b>I'll tell you who I am later. I think you'd much rather ask me other questions right now. Maybe something about the victim and defendant, hmm?")
+            msg ("<b>Wright: </b>Ugh, what is with this know-it-all? I guess I'll ask him about himself later.")
+          }
+        ]]></item>
+        <item key="victim Dizas"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else {
+            floormate.asked_victim = true
+            msg ("<b>Mysterious guy:</b> I knew of the victim, Dizas. But not much. You see, the guy didn't have very many friends")
+            msg ("<b>Wright:</b> I heard as much. Did you know anything about him that could help me?")
+            msg ("<b>Mysterious guy:</b> Honestly, I and the rest of the world refused to spend much time with him because he was such a jerk. But uh, let's see, he was rich and smart. So uh, maybe someone poor, helpless and dumb murdered him. Someone like your <i>defendant</i> perhaps?")
+            msg ("<b>Wright:</b> I told you, he hasn't been proven guity yet!")
+            msg ("<b>Mysterious guy:</b> To be fair, I understand why he did what he did. But uh, that's all I know.")
+            msg ("<b>Wright:</b> Darn, that wasn't very helpful...")
+          }
+        ]]></item>
+        <item key="defendant kip killer"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else {
+            floormate.asked_defendant = true
+            msg ("<b>Mysterious guy:</b> I have no interest in associating myself with people like him. I know nothing about him except that he's old, dumb and friendless. He and Dizas were meant to be.")
+            msg ("</br>Sounds like this guy has a grudge against those two, because he's not being very helpful.")
+          }
+        ]]></item>
+      </ask>
+    </object>
+    <object name="defendants desk">
+      <inherit name="editor_object" />
+      <alias>Defendant's Desk</alias>
+      <listalias>Defendant's Desk</listalias>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <visible type="boolean">false</visible>
+      <look type="script"><![CDATA[
+        old receipts.visible = true
+        msg ("This desk is covered in old papers. Surprisingly, not one of them is related to college. All you see are a bunch of <b>old receipts</b> and blank notebooks.This must be Kip's desk.")
+      ]]></look>
+    </object>
+    <object name="defendants bed">
+      <inherit name="editor_object" />
+      <listalias>Defendant's Bed</listalias>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <visible type="boolean">false</visible>
+      <look type="script">
+        leather bag.visible = true
+        msg ("The sheets are dirty and there's clothes everywhere. But on top of all that lies a black bag.")
+      </look>
+    </object>
+    <object name="victims desk">
+      <inherit name="editor_object" />
+      <listalias>Victim's Desk</listalias>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <visible type="boolean">false</visible>
+      <look type="script"><![CDATA[
+        mustard.visible = true
+        soy sauce.visible = true
+        msg ("Ugh what a mess. The desk is covered in spilled noodles, <b>soy sauce</b> and <b>mustard packs</b>.")
+      ]]></look>
+    </object>
+    <object name="old receipts">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <listalias>Old Receipts</listalias>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+        <value>Take</value>
+      </displayverbs>
+      <inventoryverbs type="stringlist">
+        <value>Look at</value>
+      </inventoryverbs>
+      <take />
+      <drop type="boolean">false</drop>
+      <takemsg>Old Receipts added to Inventory</takemsg>
+      <taken type="boolean">false</taken>
+      <show>Hooray, nothing happened.</show>
+      <look>Old receipts with the defendant's signature on them. Many are from the same Chinese Restaurant.</look>
+      <ontake type="script">
+        old receipts.taken = true
+      </ontake>
+    </object>
+    <object name="leather bag">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <drop type="boolean">false</drop>
+      <take />
+      <inventoryverbs type="stringlist">
+        <value>Look at</value>
+      </inventoryverbs>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+        <value>Take</value>
+      </displayverbs>
+      <taken type="boolean">false</taken>
+      <takemsg>Leather bag added to Inventory</takemsg>
+      <listalias>Leather Bag</listalias>
+      <attr name="asked_chinese" type="boolean">false</attr>
+      <look type="script"><![CDATA[
+        if (leather bag.taken = false) {
+          msg ("Hmm... what's this? This is a really fancy bag with the <b>logo</b> of the restaurant they bought this food from. But the food itself doesn't look <i>that</i> expensive that they would let every customer keep a bag like this every time they ordered. This might be the clue you were looking for!")
+        }
+        else if (leather bag.asked_chinese = true) {
+          msg ("An expensive, black leather bag with the logo of the Chinese restaurant on the front. Used to be given with expensive food over four years ago.")
+        }
+        else {
+          msg ("An expensive, black leather bag with the logo of the Chinese restaurant on the front.")
+        }
+      ]]></look>
+      <ontake type="script">
+        leather bag.taken = true
+      </ontake>
+      <show type="script"><![CDATA[
+        msg ("<i>You present the leather bag.</i>")
+        if (Delivery Guy.badge_shown = true and game.pov.parent = Chinese) {
+          msg ("<b>Willie:</b> Oh? That's one of our old delivery bags! Where'd you get that?")
+          msg ("<b>Wright:</b> The scene of the murder.")
+          msg ("<b>Willie:</b> AAAAHHHH! I DON'T KNOW ANYTHING I SWEARRR!!")
+          msg ("<b>Wright:</b> Woah! Calm down, Willie, it's okay. I'm not suspecting you. Just, can you tell me something about this bag?")
+          msg ("<b>Willie:</b> Umm, I don't know where that bag in particular came from, but I do know that back in the day, like four, five years ago, this place used to be a bit more, uhh, premium.")
+          msg ("<b>Wright:</b> Premium?")
+          msg ("<b>Willie:</b> Yeah, like, we served fancy food and charged a fortune. So, back in those days, our delivery guys would deliver food while wearing suits and would keep the food warm in those bags. If the order were big enough, we'd let the customers keep the bag. Of course, now we've kind of scaled down and have a compltely different consumer base. But yeah, that's the whole story.")
+          msg ("<b>Wright:</b> ....wow... that's unbelievable, really. So you stopped serving expensive food in these bags, around four, five years ago?")
+          msg ("<b>Willie:</b> Yeah, sounds about right. I still use one of those bags to carry the food I'm delivering, for old time's sake. But I think I'm the only one who does that.")
+          msg ("<br><i>That could be a useful clue. You've edited the information of the bag in your inventory.</i>")
+          leather bag.asked_chinese = true
+        }
+        else if (floormate.onstand = true and s2.fm_pressed = true) {
+          msg ("<b>Wright: </b>That, Robert is where your lie breaks down.")
+          msg ("<b>Robert: </b>Lie!?")
+          msg ("<b>Wright: </b>That Chinese restaurant doesn't serve food in leather bags anymore. In fact, it stopped doing so over four years now.")
+          msg ("<b>Robert: </b>What? T-t-that's...")
+          msg ("<b>Wright: </b>Hard to believe, right? You must have been thrown off by the fact that the delivery guy carried the food in that bag when he delivered the food. Because you were the one who signed for it.")
+          msg ("<b>OBJECTION!</b>")
+          msg ("<b>K: </b>You have some nerve, accusing my witness of murder like that. The defendant did have a black bag in his room when the police inspected it.")
+          msg ("<b>Wright: </b>That's because the witness thought they still served food in those. He dressed up as the defendant to fool the delivery guy and then dresed up as the delivery guy to fool the defendant and gave him the food in this old black bag.")
+          msg ("<b>K: </b>And how did the witness get mustard packs with the defendant's fingerprints on them?")
+          msg ("<b>Wright: </b>He must have found out that the victim loves mustard and decided to take some from the defendant's desk and put them in the bag. The defendant must have kept extra bags of mustard in his desk, in case his roommate wanted to order Chinese food, which doesn't come with it.")
+          msg ("<b>OBJECTION!</b>")
+          msg ("<b>K: </b>A-a-and what's his motive for going through all that?!")
+          msg ("<b>Wright: </b>Obviously, it was the victim's attitude-")
+          msg ("<b>OBJECTION!</b>")
+          msg ("<b>Robert: </b>Did you forget what I told you yesterday, Mr. Wright? I don't care about the victim. He has nothing to do with me. Why would I want to kill him?")
+          msg ("<br><b>Judge: </b>ORDER! The prosecution has a point. Wright, if you're going to make such accusations, you need to prove them. Can you provide evidence for your claims, if not, I will pronounce my verdict now.")
+          msg ("<b>Wright: </b>Can I prove what I have just said? Is there something in my inventory that can help me now?")
+          wright.finalevidence = true
+        }
+        else {
+          msg ("Hooray, nothing happened.")
+        }
+      ]]></show>
+    </object>
+    <object name="mustard">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <inventoryverbs type="stringlist">
+        <value>Look at</value>
+      </inventoryverbs>
+      <take />
+      <drop type="boolean">false</drop>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+        <value>Take</value>
+      </displayverbs>
+      <taken type="boolean">false</taken>
+      <takemsg>Mustard added to Inventory.</takemsg>
+      <listalias>Mustard Pack</listalias>
+      <attr name="asked_chinese" type="boolean">false</attr>
+      <attr name="asked_inlobby" type="boolean">false</attr>
+      <look type="script"><![CDATA[
+        if (mustard.taken = false) {
+          if (Autopsy Report.taken = true) {
+            msg ("This must be the mustard that caused all the commotion. Gumshoe says it has the <b>defendan't fingerprints</b> on it. Maybe it's not the kind of evidence you need to make YOUR case. Still, it might be best if you grab a pack in case you need it tomorrow, though you're still not sure how it could come in handy...")
+          }
+          else {
+            msg ("This couldn't be related to the crime. I mean, who eats mustard with Chinese food?")
+          }
+        }
+        else {
+          msg ("A pack of poisonous mustard. Has the defendant's fingerprints on it.")
+        }
+      ]]></look>
+      <ontake type="script">
+        mustard.taken = true
+      </ontake>
+      <show type="script"><![CDATA[
+        msg ("<i>You present the mustard pack.</i>")
+        if (Delivery Guy.badge_shown = true and game.pov.parent = Chinese) {
+          msg ("<b>Willie:</b> What is that? Mustard? Why did you show me that?")
+          msg ("<b>Wright:</b> Is this from your restaurant")
+          msg ("<b>Willie:</b> What?! No! I've never heard of this mustard and Chinese food combo.")
+          msg ("<b>Wright:</b> Well, this is what caused the murder last night. It was mixed in with the noodles the victim ordered.")
+          msg ("<b>Willie:</b> Well, it's got nothing to do with us!")
+          msg ("<br>Wow, he got really upset by that. Maybe it's best to just lay off that evidence for a while...")
+          mustard.asked_chinese = true
+        }
+        else if (defendant.inlobby = true) {
+          msg ("<b>Wright:</b> Now, you said you didn't touch anything in the bag, or leave the bag anywhere, right?")
+          msg ("<b>Kip:</b> That's right.")
+          msg ("<b>Wright:</b> But this piece of evidence contradicts that. This mustard pack was inside the bag of food when Dizas was killed. How then, did your fingerprints get on it? Did you touch the packs after the murder?")
+          msg ("<b>Kip:</b> I didn't. When it happened, I was too shocked to bother about that.")
+          msg ("<b>Wright:</b> In that case, I'm going to conclude that <b>someone put it in there before the delivery guy gave it to you</b>.")
+          msg ("<b>Kip:</b> But why?")
+          msg ("<b>Wright: </b>To frame you, I'll bet. Someone wanted Dizas dead, and wanted you imprisoned for it.")
+          msg ("<b>Kip:</b> ...")
+          mustard.asked_inlobby = true
+        }
+        else {
+          msg ("Hooray, nothing happened.")
+        }
+      ]]></show>
+    </object>
+    <object name="soy sauce">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <inventoryverbs type="stringlist">
+        <value>Look at</value>
+      </inventoryverbs>
+      <take type="boolean">false</take>
+      <drop type="boolean">false</drop>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+        <value>Take</value>
+      </displayverbs>
+      <look><![CDATA[A standard pack of soy sauce, often added to Chinese food. You don't really <i>need</i> this since this isn't directly linked to the crime.]]></look>
+      <takemsg>This isn't really linked to the case. You don't really need this for court tomorrow.</takemsg>
+      <listalias>Soy Sauce Pack</listalias>
+    </object>
+    <turnscript>
+      <enabled />
+      <script><![CDATA[
+        if (victim.dead = true and leather bag.asked_chinese = true and mustard.taken = true and old receipts.taken = true and mustard.asked_chinese = true and testimony.received = true and Autopsy Report.taken = true and Newspaper Article.taken = true and defendant.asked_bully = true) {
+          msg ("<br><br>It's getting late and you realize this is all the evidence you're going to find to solve this case. Visiting hours at the Detention Center are now over too, so you can't see Kip until tomorrow. Before heading to court, you decide you'll ask him about the <b>two pices of evidence</b> that make him look guilty. If he's been telling the truth about being innocent, that's all you'll need to win tomorrow's trial.")
+          MoveObject (defendant, Lobby)
+          MoveObject (wright, Lobby)
+        }
+      ]]></script>
+    </turnscript>
+  </object>
+  <verb>
+    <property>shoutat</property>
+    <pattern>shout at</pattern>
+    <defaultexpression>"You can't shout at " + object.article + "."</defaultexpression>
+  </verb>
+  <verb>
+    <property>add</property>
+    <pattern>add</pattern>
+    <defaultexpression>"You can't add " + object.article + "."</defaultexpression>
+  </verb>
+  <verb>
+    <property>ingest</property>
+    <pattern>ingest</pattern>
+    <defaultexpression>"You can't ingest " + object.article + "."</defaultexpression>
+  </verb>
+  <object name="det">
+    <inherit name="editor_room" />
+    <alias>Detention Center</alias>
+    <usedefaultprefix type="boolean">false</usedefaultprefix>
+    <prefix>the</prefix>
+    <exitslistprefix>You can go to</exitslistprefix>
+    <beforefirstenter type="script"><![CDATA[
+      PrintCentered ("<b>Phoenix Wright. March 3rd, 09:15am.</b></br>")
+      msg ("</br>Whew, you just got back from vacation a couple hours ago and you've already got your first case. Someone must be desperate. </br>")
+      AddToInventory (Attorney Badge)
+    ]]></beforefirstenter>
+    <firstenter type="script"><![CDATA[
+      msg ("The visitor's room is as quiet as ever. You wait behind the glass. </br>You're here to meet your new client. What's his name? Right, <b>Kip Treblemike</b>, college student. Ah, here he comes now.</br>")
+      msg ("<b>Kip:</b> Hiya, Mr.Wright!</br>Alright, let's try and find out as much information as we can from this guy.")
+    ]]></firstenter>
+    <enter type="script">
+    </enter>
+    <object name="wright">
+      <inherit name="editor_object" />
+      <inherit name="male" />
+      <inherit name="editor_player" />
+      <feature_player />
+      <scenery />
+      <visible type="boolean">false</visible>
+      <health type="int">5</health>
+      <finalevidence type="boolean">false</finalevidence>
+    </object>
+    <exit name="dept_deten" alias="Criminal Affairs" to="Dept">
+      <inherit name="northwestdirection" />
+      <visible type="boolean">false</visible>
+      <prefix type="string"></prefix>
+    </exit>
+    <object name="Attorney Badge">
+      <inherit name="editor_object" />
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <inventoryverbs type="stringlist">
+        <value>Look at</value>
+        <value>Show</value>
+      </inventoryverbs>
+      <look>No one would believe you were an attorney if you didn't have this.</look>
+      <visible />
+      <show type="script"><![CDATA[
+        if (Delivery Guy.asked_crime = true and game.pov.parent = Chinese and Delivery Guy.badge_shown = false) {
+          msg ("<i>You show him the badge.</i>")
+          msg ("He seems to have calmed down.</br>")
+          msg ("<b>Cashier:</b> Oh thank God. I may not know what that badge means but it looks important enough that I believe that you're not a journalist or something. Honestly, the last thing I want is someone thinking me and this joint is related to some murder")
+          msg ("<b>Wright:</b> So umm... who was the delivery guy again?")
+          msg ("<b>Cashier:</b> Oh yeah, that would be me. Pleased to meet ya sir, my name's Willie.")
+          msg ("<b>Wright:</b> Willie, can you answer some questions about last night for me?")
+          msg ("<b>Cashier:</b> Sure, I'll do what I can to help!")
+          msg ("<br>Now's the best time to ask him about what happened and maybe about some <b>suspicious evidence</b>")
+          Delivery Guy.badge_shown = true
+        }
+        else {
+          msg ("<i>You flash your badge</i>. </br>As expected, nothing happens.")
+        }
+      ]]></show>
+    </object>
+  </object>
+  <object name="Courtroom">
+    <inherit name="editor_room" />
+    <usedefaultprefix type="boolean">false</usedefaultprefix>
+    <prefix>the</prefix>
+    <beforefirstenter type="script"><![CDATA[
+      PrintCentered ("<br><br><b>Phoenix Wright. March 4th, 09:10am.</b></br>")
+      MoveObject (Gumshoe, Courtroom)
+      MakeObjectVisible (floormate)
+      MoveObject (floormate, Courtroom)
+      MoveObject (Delivery Guy, Courtroom)
+    ]]></beforefirstenter>
+    <firstenter type="script"><![CDATA[
+      defendant.inlobby = false
+      defendant.incourt = true
+      msg ("<b>Judge:</b> Court is now is session for the trial of Kip Treblemike.")
+      msg ("<b>Wright: </b>The defense is ready, Your Honor.")
+      msg ("<b>Prosecutor K: </b>The prosecutor is ready, Your Honor. And we will prove, without a doubt, that the defendant is guilty by providing decisive evidence and two decisive witnesses. But first, I call Detective Gumshoe on the stand to state the events of the crime.")
+      msg ("<b>Judge:</b> Detective, please take the stand!<br>")
+      msg ("<i>Gumshoe takes the witness stand</i>")
+      msg ("<b>Judge:</b> Your testimony please, Detective.")
+      msg ("<b>Gumshoe:</b> Yes, sir<br>")
+      Gumshoe.onstand = true
+      PrintCentered ("<b>Gumshoe's Testimony</b>")
+      msg ("<b>Statement 1: </b>The murder took place between 11:45pm and midnight on March 2nd.")
+      msg ("<b>Statement 2: </b>The victim forced the defendant to order Chinese food for him at around 11:00pm.")
+      msg ("<b>Statement 3: </b>He took the food from the delivery guy, Willie, and put some mustard packs in the delivery bag before giving it to the victim.")
+      msg ("<b>Statement 4: </b>The defendant was the only one in the college who knew the victim loved mustard on everything he eats and so he was the only one who could have done it.")
+      msg ("<b>Statement 5: </b>The defendant clearly hated the victim because of his arrogant attitude and wealth and decided to poison him.")
+      msg ("<br><b>Judge:</b> Okay, Mr. Wright, you may cross-examine the detective. You may press any statement you wish or show a piece of contradictory evidence.")
+      msg ("<b>Wright: </b>Alright, here I go.")
+    ]]></firstenter>
+    <turnscript>
+      <enabled />
+      <script><![CDATA[
+        if (wright.health = 0) {
+          msg ("<b>Judge:</b> That's enough! I see no reason to prolong the trial. I declare the defendant, Kip Treblemike")
+          PrintCentered ("<b>GUILTY</b>")
+          finish
+        }
+      ]]></script>
+    </turnscript>
+    <object name="s1">
+      <inherit name="editor_object" />
+      <scenery />
+      <attr name="gs_pressed" type="boolean">false</attr>
+      <alias>Statement 1</alias>
+      <look>I don't understand what you mean by that.</look>
+      <delivery type="string"></delivery>
+      <press type="script"><![CDATA[
+        if (Gumshoe.onstand = true) {
+          s1.gs_pressed = true
+          msg ("<b>Wright: </b>That's what the Autopsy Report says, right?")
+          msg ("<b>OBJECTION!</b>")
+          msg ("<b>K:</b> Check your inventory and confirm that for youself instead of asking others.")
+          msg ("<b>Wright: </b>Yeesh...")
+          if (s1.gs_pressed = true and s2.gs_pressed = true and s3.gs_pressed = true and s4.gs_pressed = true and s5.gs_pressed = true) {
+            msg ("<b>Judge: </b>Seeing as the defense cannot find anything wrong about the above statements, we will move on to the first witness.")
+            msg ("<b>K: </b>The prosecution calls the man who delived the Chinese food to the defendant, <b>Willie Due</b> to the stand.")
+            Gumshoe.onstand = false
+            Delivery Guy.onstand = true
+            msg ("<i>Willie takes the witness stand</i>")
+            msg ("<b>Judge: </b>Please testify what you saw to the court.")
+            msg ("<b>Willie:</b> Yes sir.")
+            PrintCentered ("<b>Willie's Testimony</b>")
+            msg ("<b>Statement 1: </b>I arrived at the dorm at around 11:20pm.")
+            msg ("<b>Statement 2: </b>The defendant was waiting in the lobby.")
+            msg ("<b>Statement 3:</b>He signed the receipt and I gave him the food and left.")
+            msg ("<b>K: </b>As proof that was indeed the defendant that took the food, here's the <b>receipt from the store signed by the defendant.")
+            msg ("<i>Chinese Restaurant Receipt add to Inventory.</i>")
+            msg ("<br><b>Judge: </b>You may cross examine the witness.")
+            msg ("Well, you think, his statement is unexpected. I'm pretty sure he told me a different story in the restaurant yesterday. I wonder if I can bring up a contradiction this time.")
+            MakeObjectVisible (Receipt from Chinese Restaurant)
+            AddToInventory (Receipt from Chinese Restaurant)
+          }
+        }
+        else if (Delivery Guy.onstand = true  and Delivery Guy.test2 = false) {
+          msg ("<b>Wright: </b>Who picked up the phone and wrote the details of the delivery?")
+          msg ("<b>Willie: </b>No idea! I've never worked the phone before so I don't know who usually does it and how they do it.")
+          msg ("Darn, you think. That's a dead end.")
+        }
+        else if (Delivery Guy.onstand = true  and Delivery Guy.test2 = true) {
+          msg ("<b>Wright: </b>But you're not sure about his face?")
+          msg ("<b>Willie: </b>I don't-")
+          msg ("<b>OBJECTION!</b>")
+          msg ("<b>K: </b> Dead end, Wright. Right now, none of us have any reason to belive it <i>wasn't</i> the defendant who picked up the food. The fact that the witness remembers even the clothes is evidence against you, not us.")
+        }
+        else if (floormate.onstand = true) {
+          msg ("<b>Wright: </b>What were you doing downstairs in the lobby at the time?")
+          msg ("<b>Robert: </b>I-")
+          msg ("<b>OBJECTION!</b>")
+          msg ("<b>K: </b> Dead end, Wright. It doesn't matter what he was doing there. He wasn't tied to the murder so who cares?")
+        }
+      ]]></press>
+    </object>
+    <object name="s2">
+      <inherit name="editor_object" />
+      <scenery />
+      <alias>Statement 2</alias>
+      <look>I don't understand what you mean by that.</look>
+      <attr name="gs_pressed" type="boolean">false</attr>
+      <press type="script"><![CDATA[
+        if (Gumshoe.onstand = true) {
+          s2.gs_pressed = true
+          msg ("<b>Wright: </b>What do you mean, forced?")
+          msg ("<b>Gumshoe:</b> We've confirmed that the victim had a pretty bad attitude. In fact, he was particularly bossy with the defendant.")
+          msg ("<b>OBJECTION!</b>")
+          msg ("<b>K: </b>The defendant has admitted to being bullied by the victim. So he obviously decided to take his revenge.")
+          msg ("<b>Judge:</b> Another classic case of 'taking matters into your own hands.'")
+          msg ("<b>Wright: </b>Wow, now the judge has a bad opinion of us. Maybe I shouldn't have pressed that one...")
+          if (s1.gs_pressed = true and s2.gs_pressed = true and s3.gs_pressed = true and s4.gs_pressed = true and s5.gs_pressed = true) {
+            msg ("<b>Judge: </b>Seeing as the defense cannot find anything wrong about the above statements, we will move on to the first witness.")
+            msg ("<b>K: </b>The prosecution calls the man who delived the Chinese food to the defendant, <b>Willie Due</b> to the stand.")
+            Gumshoe.onstand = false
+            Delivery Guy.onstand = true
+            msg ("<i>Willie takes the witness stand</i>")
+            msg ("<b>Judge: </b>Please testify what you saw to the court.")
+            msg ("<b>Willie:</b> Yes sir.")
+            PrintCentered ("<b>Willie's Testimony</b>")
+            msg ("<b>Statement 1: </b>I arrived at the dorm at around 11:20pm.")
+            msg ("<b>Statement 2: </b>The defendant was waiting in the lobby.")
+            msg ("<b>Statement 3:</b>He signed the receipt and I gave him the food and left.")
+            msg ("<b>K: </b>As proof that was indeed the defendant that took the food, here's the <b>receipt from the store signed by the defendant.")
+            msg ("<i>Chinese Restaurant Receipt add to Inventory.</i>")
+            msg ("<br><b>Judge: </b>You may cross examine the witness.")
+            msg ("Well, you think, his statement is unexpected. I'm pretty sure he told me a different story in the restaurant yesterday. I wonder if I can bring up a contradiction this time.")
+            MakeObjectVisible (Receipt from Chinese Restaurant)
+            AddToInventory (Receipt from Chinese Restaurant)
+          }
+        }
+        else if (Delivery Guy.onstand = true  and Delivery Guy.test2 = false) {
+          msg ("<b>Wright: </b>Are you sure the person who was waiting was the defendant?")
+          msg ("<b>Willie: </b>Uhh, yeah?")
+          msg ("<b>Wright: </b>You don't sound all too sure.")
+          msg ("<b>Willie: </b>Ugh. YOU TRY WORKING AN ALL NIGHT SHIFT AND SEE IF YOU CAN REMEMBER EVERYONE'S NAME AND FACE. SOMETIMES IT'S HARD OKAY, I'M SORRY.")
+          msg ("Yeesh, you think. That's a dead end.")
+        }
+        else if (Delivery Guy.onstand = true  and Delivery Guy.test2 = true) {
+          msg ("<b>Wright: </b>What if the witness was trying to conceal his face using that scarf? Isn't that suspicious enough?")
+          msg ("<b>OBJECTION!</b>")
+          msg ("<b>K: </b> And what if he was just cold? Dead end, Wright. Right now, none of us have any reason to belive it <i>wasn't</i> the defendant who picked up the food. The fact that the witness remembers even the clothes is evidence against you, not us.")
+        }
+        else if (floormate.onstand = true) {
+          s2.fm_pressed = true
+          msg ("<b>Wright: </b>Could you describe the bag for me?")
+          msg ("<b>Robert: </b>It was the standard black, leather bag that this Chinese place delivers in. It had the restaurant's logo on it and everything.")
+        }
+      ]]></press>
+      <attr name="fm_pressed" type="boolean">false</attr>
+    </object>
+    <object name="s3">
+      <inherit name="editor_object" />
+      <scenery />
+      <alias>Statement 3</alias>
+      <look>I don't understand what you mean by that.</look>
+      <attr name="gs_pressed" type="boolean">false</attr>
+      <press type="script"><![CDATA[
+        if (Gumshoe.onstand = true) {
+          s3.gs_pressed = true
+          msg ("<b>Wright: </b>H-how did you come to that conclusion?")
+          msg ("<b>Gumshoe: </b>The defendant's fingerprints are all over the mustard packs we found. Besides, he's the only one who knew the victim would eat mustard with noodles.")
+          msg ("<b>Wright: </b>(I need to prove that's not true, otherwise we'll get the guilty verdict for sure!)")
+          if (s1.gs_pressed = true and s2.gs_pressed = true and s3.gs_pressed = true and s4.gs_pressed = true and s5.gs_pressed = true) {
+            msg ("<b>Judge: </b>Seeing as the defense cannot find anything wrong about the above statements, we will move on to the first witness.")
+            msg ("<b>K: </b>The prosecution calls the man who delived the Chinese food to the defendant, <b>Willie Due</b> to the stand.")
+            Gumshoe.onstand = false
+            Delivery Guy.onstand = true
+            msg ("<i>Willie takes the witness stand</i>")
+            msg ("<b>Judge: </b>Please testify what you saw to the court.")
+            msg ("<b>Willie:</b> Yes sir.")
+            PrintCentered ("<b>Willie's Testimony</b>")
+            msg ("<b>Statement 1: </b>I arrived at the dorm at around 11:20pm.")
+            msg ("<b>Statement 2: </b>The defendant was waiting in the lobby.")
+            msg ("<b>Statement 3:</b>He signed the receipt and I gave him the food and left.")
+            msg ("<b>K: </b>As proof that was indeed the defendant that took the food, here's the <b>receipt from the store signed by the defendant.")
+            msg ("<i>Chinese Restaurant Receipt add to Inventory.</i>")
+            msg ("<br><b>Judge: </b>You may cross examine the witness.")
+            msg ("Well, you think, his statement is unexpected. I'm pretty sure he told me a different story in the restaurant yesterday. I wonder if I can bring up a contradiction this time.")
+            MakeObjectVisible (Receipt from Chinese Restaurant)
+            AddToInventory (Receipt from Chinese Restaurant)
+          }
+        }
+        else if (Delivery Guy.onstand = true  and Delivery Guy.test2 = false) {
+          msg ("<b>Wright: </b>Wait, that's it?")
+          msg ("<b>Willie: </b>Yup.")
+          msg ("<b>K: </b> What's up Wright? Can't find any contradictions, hmm?")
+        }
+        else if (floormate.onstand = true) {
+          msg ("<b>Wright: </b>So you also happened to be next to the room when the victim screamed?")
+          msg ("<b>Robert: </b>It was a pretty loud scream. Eventually, the whole floor gathered there to see what happened.")
+          msg ("Darn it, you think. His alibi makes sense usless you're able to find a whole in it. And if this hole exists, maybe things will finally make sense.")
+        }
+      ]]></press>
+    </object>
+    <object name="s4">
+      <inherit name="editor_object" />
+      <scenery />
+      <alias>Statement 4</alias>
+      <look>I don't understand what you mean by that.</look>
+      <attr name="gs_pressed" type="boolean">false</attr>
+      <press type="script"><![CDATA[
+        if (Gumshoe.onstand = true) {
+          s4.gs_pressed = true
+          msg ("<b>Wright: </b>S-somebody could've found out that the victim liked mustard in his food and found a way to frame the defendant for it!")
+          msg ("<b>Gumshoe: </b>Oh... Yeah.. I suppose that's poss-")
+          msg ("<b>OBJECTION!</b>")
+          msg ("<b>K: </b>That's quite the claim, Wright. Can you prove that someone else found out? And can you prove who that someone was?")
+          msg ("<b>Wright: </b>Umm...")
+          msg ("<b>K: </b>Thought not. You ought to know better than to make such claims if you can't prove them.")
+          if (s1.gs_pressed = true and s2.gs_pressed = true and s3.gs_pressed = true and s4.gs_pressed = true and s5.gs_pressed = true) {
+            msg ("<b>Judge: </b>Seeing as the defense cannot find anything wrong about the above statements, we will move on to the first witness.")
+            msg ("<b>K: </b>The prosecution calls the man who delived the Chinese food to the defendant, <b>Willie Due</b> to the stand.")
+            Gumshoe.onstand = false
+            Delivery Guy.onstand = true
+            msg ("<i>Willie takes the witness stand</i>")
+            msg ("<b>Judge: </b>Please testify what you saw to the court.")
+            msg ("<b>Willie:</b> Yes sir.")
+            PrintCentered ("<b>Willie's Testimony</b>")
+            msg ("<b>Statement 1: </b>I arrived at the dorm at around 11:20pm.")
+            msg ("<b>Statement 2: </b>The defendant was waiting in the lobby.")
+            msg ("<b>Statement 3:</b>He signed the receipt and I gave him the food and left.")
+            msg ("<b>K: </b>As proof that was indeed the defendant that took the food, here's the <b>receipt from the store signed by the defendant.")
+            msg ("<i>Chinese Restaurant Receipt add to Inventory.</i>")
+            msg ("<br><b>Judge: </b>You may cross examine the witness.")
+            msg ("Well, you think, his statement is unexpected. I'm pretty sure he told me a different story in the restaurant yesterday. I wonder if I can bring up a contradiction this time.")
+            MakeObjectVisible (Receipt from Chinese Restaurant)
+            AddToInventory (Receipt from Chinese Restaurant)
+          }
+        }
+      ]]></press>
+    </object>
+    <object name="s5">
+      <inherit name="editor_object" />
+      <scenery />
+      <alias>Statement 5</alias>
+      <look>I don't understand what you mean by that.</look>
+      <attr name="gs_pressed" type="boolean">false</attr>
+      <press type="script"><![CDATA[
+        if (Gumshoe.onstand = true) {
+          s5.gs_pressed = true
+          msg ("<b>Wright: </b>That makes no sense, Detective. They've been roommates for over two years by choice. They must have been friends. Why would the defendant want to go and kill him now?")
+          msg ("<b>OBJECTION!</b>")
+          msg ("<b>K: </b>The facts have nothing to do with 'why' it happened. It did happen, we have proof he did it and a possible motive to explain it. You haven't been able to prove we were wrong so far.")
+          msg ("<b>Wright: </b>Ugh...")
+          if (s1.gs_pressed = true and s2.gs_pressed = true and s3.gs_pressed = true and s4.gs_pressed = true and s5.gs_pressed = true) {
+            msg ("<b>Judge: </b>Seeing as the defense cannot find anything wrong about the above statements, we will move on to the first witness.")
+            msg ("<b>K: </b>The prosecution calls the man who delived the Chinese food to the defendant, <b>Willie Due</b> to the stand.")
+            Gumshoe.onstand = false
+            Delivery Guy.onstand = true
+            msg ("<i>Willie takes the witness stand</i>")
+            msg ("<b>Judge: </b>Please testify what you saw to the court.")
+            msg ("<b>Willie:</b> Yes sir.")
+            PrintCentered ("<b>Willie's Testimony</b>")
+            msg ("<b>Statement 1: </b>I arrived at the dorm at around 11:20pm.")
+            msg ("<b>Statement 2: </b>The defendant was waiting in the lobby.")
+            msg ("<b>Statement 3:</b>He signed the receipt and I gave him the food and left.")
+            msg ("<b>K: </b>As proof that was indeed the defendant that took the food, here's the <b>receipt from the store signed by the defendant.")
+            msg ("<i>Chinese Restaurant Receipt add to Inventory.</i>")
+            msg ("<br><b>Judge: </b>You may cross examine the witness.")
+            msg ("Well, you think, his statement is unexpected. I'm pretty sure he told me a different story in the restaurant yesterday. I wonder if I can bring up a contradiction this time.")
+            MakeObjectVisible (Receipt from Chinese Restaurant)
+            AddToInventory (Receipt from Chinese Restaurant)
+          }
+        }
+      ]]></press>
+    </object>
+    <object name="Receipt from Chinese Restaurant">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <inventoryverbs type="stringlist">
+        <value>Look at</value>
+        <value>Show</value>
+      </inventoryverbs>
+      <look>The receipt signed for the Chinese food. Has the defendant's name on it, but the signature looks surprisingly different from the ones on the older receipts.</look>
+      <show type="script"><![CDATA[
+        msg ("<i>You present the Receipt from the Chinese Restaurant.</i>")
+        if (Delivery Guy.onstand = true  and Delivery Guy.test2 = true) {
+          msg ("<b>Wright: </b>The defense claims that the witness did not actually meet the defendant that night.")
+          msg ("<b>Willie: </b>What, hey I'm not lying I sw-")
+          msg ("<b>Wright: </b>No no I didn't mean that. I mean, you met someone who was dressed as the defendant that day, just to make a witness out of you. But that person was not the defendant.")
+          msg ("<b>OBJECTION!</b>")
+          msg ("<b>K: </b> And how did you come to that conclusion?!")
+          msg ("<b>Wright: </b>This receipt and these old ones I found in the defendant's room have completely different signatures! It looks like someone tried to replicate it on this receipt, but failed.")
+          msg ("<b>Judge: </b>Hmm... that's a valid concern you've raised Mr. Wright. I think the prosecution needs more evidence if they are to refute the defense's current claim.")
+          msg ("<b>Wright: </b>Yes!")
+          msg ("<b>K: </b>Not to worry. This next witness will clear up all the misconceptions.")
+          msg ("<b>Wright: </b>Uh oh. I bet I know who's up next...")
+          Delivery Guy.onstand = false
+          floormate.onstand = true
+          msg ("<br><b>K: </b>The prosecution calls Robert Tike to the stand.")
+          msg ("<i>Robert takes the witness stand.")
+          msg ("<b>Judge: </b>You may begin your testimony, witness.")
+          PrintCentered ("<br><b>Robert's Testimony</b>")
+          msg ("<b>Statement 1: </b>I saw the defendant sign the receipt that night.")
+          msg ("<b>Statement 2: </b>He then opened the bag, placed a handful of mustard packs inside and went into his room.")
+          msg ("<b>Statement 3: </b>A few minutes later the we hear Dizas scream in the hallway. By the time we got there, he had been poisoned by the mustard the defedant put in the bag.")
+          msg ("<br><b>Judge: </b>Your cross-examination, Mr.Wright.")
+        }
+      ]]></show>
+    </object>
+  </object>
+  <object name="Lobby">
+    <inherit name="editor_room" />
+    <alias>Defendant Lobby</alias>
+    <descprefix>You are in</descprefix>
+    <usedefaultprefix type="boolean">false</usedefaultprefix>
+    <prefix>the</prefix>
+    <beforefirstenter type="script"><![CDATA[
+      PrintCentered ("<br><br><b>Phoenix Wright. March 4th, 09:10am.</b></br>")
+    ]]></beforefirstenter>
+    <firstenter type="script"><![CDATA[
+      defendant.inlobby = true
+      msg ("Twenty minutes before you enter the courtroom and settle this. Which should give you just enough time to show Kip those piece of evidence you need to know more about.")
+      msg ("<b>Kip: </b>Ready, Mr. Wright?")
+      msg ("<b>Wright: </b>Almost. After looking for evidence yesterday there were a few pieces I couldn't quite explain. I'm going to ask you about those things now. I need you to answer me honestly, otherwise I can't promise what'll happen in there,")
+      msg ("<b>Kip: </b>.... I understand. Okay, I'll tell you whatever you need to know.")
+    ]]></firstenter>
+    <turnscript>
+      <enabled />
+      <script><![CDATA[
+        if (mustard.asked_inlobby = true) {
+          if (testimony.asked_inlobby = true) {
+            msg ("<br><b>Wright:</b> That's all I needed to know. Let's head inside and face this case head on!")
+            MoveObject (defendant, Courtroom)
+            MoveObject (wright, Courtroom)
+          }
+        }
+      ]]></script>
+    </turnscript>
+  </object>
+  <object name="Chinese">
+    <inherit name="editor_room" />
+    <alias>Chinese Restaurant</alias>
+    <exitslistprefix>You can go to the</exitslistprefix>
+    <beforefirstenter type="script"><![CDATA[
+      wright.chinese_visited = true
+      if (wright.dorm_visited = false) {
+        PrintCentered ("<br><br><b>Phoenix Wright. March 3rd, 12:30pm.</b></br>")
+      }
+      else {
+        PrintCentered ("<br><br><b>Phoenix Wright. March 3rd, 04:00pm.</b></br>")
+      }
+    ]]></beforefirstenter>
+    <firstenter type="script"><![CDATA[
+      msg ("This is the place where the victim, or more precisely, where the defendant ordered food for the victim from last night. If anyone's testimony is crucial in pointing out a contradiction in the prosecution's case, it's the guy who delivered the food that night. The question is where is he?")
+      msg ("The restaurant itself is pretty deserted. There seem to be some old creaky tables inside and one cashier standing behind the register. You assume that restaurants like this get the majority of their money by delivering. You go up to the cashier. It's a long shot, but maybe he'd know who delivered the food last night. With a wide, yet obviously insincere smile, the cashier greets you.</br>")
+      msg ("<b>Cashier: </b>Can I help you, sir?")
+    ]]></firstenter>
+    <exit name="dorm_chinese" alias="Dorm Room" to="Dorm room">
+      <inherit name="eastdirection" />
+      <visible />
+    </exit>
+    <exit name="dept_chinese" alias="Criminal Affairs Department" to="Dept">
+      <inherit name="northeastdirection" />
+      <visible />
+    </exit>
+    <object name="Delivery Guy">
+      <inherit name="editor_object" />
+      <scenery />
+      <attr name="asked_crime" type="boolean">false</attr>
+      <alt type="stringlist">
+        <value>cashier</value>
+        <value>Willie</value>
+      </alt>
+      <attr name="badge_shown" type="boolean">false</attr>
+      <onstand type="boolean">false</onstand>
+      <askdefault type="script">
+        if (defendant.incourt = true) {
+          msg ("You can't just talk to anyone when court is in session!")
+        }
+        else {
+          msg ("He responds sadly, \"I don't know much about that, sorry\".")
+        }
+      </askdefault>
+      <ask type="scriptdictionary">
+        <item key="delivery last night yesterday crime"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else if (Delivery Guy.asked_crime = false) {
+            Delivery Guy.asked_crime = true
+            msg ("<b>Cashier: </b>Wha-what are y-you refering to, sir?")
+            msg ("<b>Wright: </b>I'm looking for the man who delivered the food to Kip Treblemike last night. Do you know who that was?")
+            msg ("<b>Cashier: </b>S-s-s-sir I don't know who told you this, but our company is not involved in any murder!")
+            msg ("<b>Wright: </b>I never told you it was a murder...")
+            msg ("<b>Cashier: </b>Oh! Well, I just assumed it was....</br>")
+            msg ("Hmm this guy seems too afraid to tell you anything. If only you had something to show him that would make you seem more trustworthy...")
+          }
+          else {
+            msg ("<b>Willie: </b>Well, it started like any other delivery. We got a call, they gave me the food, and I went to deliver it.")
+            msg ("<b>Wright: </b>Do you remember anything about the guy who took the food from you?")
+            msg ("<b>Willie: </b>Well yeah, he was a weird one, he was. First off, he was in such a hurry. He grabbed the food, signed in a rush and ran off. And he was wearing a thick scarf. I mean, it's a little cold, but come one, a scarf like that in March?!")
+            msg ("<b>Wright: </b>That is suspicious, why would Kip be wearing a thick scarf that night? I should make a note of that in case I forget")
+            MakeObjectVisible (testimony)
+            AddToInventory (testimony)
+            testimony.received = true
+          }
+        ]]></item>
+        <item key="mustard"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else if (Delivery Guy.badge_shown = true) {
+            if (mustard.taken = true) {
+              msg ("<b>Willie:</b> What is that? Mustard? Why did you show me that?")
+              msg ("<b>Wright:</b> Is this from your restaurant")
+              msg ("<b>Willie:</b> What?! No! I've never heard of this mustard and Chinese food combo.")
+              msg ("<b>Wright:</b> Well, this is what caused the murder last night. It was mixed in with the noodles the victim ordered.")
+              msg ("<b>Willie:</b> Well, it's got nothing to do with us!")
+              msg ("<br>Wow, he got really upset by that. Maybe it's best to just lay off that evidence for a while...")
+              mustard.asked_chinese = true
+            }
+            else {
+              msg ("<b>Willie:</b> I don't know much about that, sorry.")
+            }
+          }
+        ]]></item>
+        <item key="leather bag"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else if (Delivery Guy.badge_shown = true) {
+            if (leather bag.taken = true) {
+              msg ("<b>Willie:</b> Oh? That's one of our old delivery bags! Where'd you get that?")
+              msg ("<b>Wright:</b> The scene of the murder.")
+              msg ("<b>Willie:</b> AAAAHHHH! I DON'T KNOW ANYTHING I SWEARRR!!")
+              msg ("<b>Wright:</b> Woah! Calm down, Willie, it's okay. I'm not suspecting you. Just, can you tell me something about this bag?")
+              msg ("<b>Willie:</b> Umm, I don't know where that bag in particular came from, but I do know that back in the day, like four, five years ago, this place used to be a bit more, uhh, premium.")
+              msg ("<b>Wright:</b> Premium?")
+              msg ("<b>Willie:</b> Yeah, like, we served fancy food and charged a fortune. So, back in those days, our delivery guys would deliver food while wearing suits and would keep the food warm in those bags. If the order were big enough, we'd let the customers keep the bag. Of course, now we've kind of scaled down and have a compltely different consumer base. But yeah, that's the whole story.")
+              msg ("<b>Wright:</b> ....wow... that's unbelievable, really. So you stopped serving expensive food in these bags, around four, five years ago?")
+              msg ("<b>Willie:</b> Yeah, sounds about right.")
+              msg ("<br><i>That could be a useful clue. You've edited the information of the bag in your inventory.</i>")
+              leather bag.asked_chinese = true
+            }
+            else {
+              msg ("<b>Willie:</b> I don't know much about that, sorry.")
+            }
+          }
+        ]]></item>
+        <item key="what happened defendant Kip"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else if (Delivery Guy.badge_shown = true) {
+            msg ("<b>Willie: </b>Well, it started like any other delivery. We got a call, they gave me the food, and I went to deliver it.")
+            msg ("<b>Wright: </b>Do you remember anything about the guy who took the food from you?")
+            msg ("<b>Willie: </b>Well yeah, he was a weird one, he was. First off, he was in such a hurry. He grabbed the food, signed in a rush and ran off. And he was wearing a thick scarf. I mean, it's a little cold, but come one, a scarf like that in March?!")
+            msg ("<b>Wright: </b>That is suspicious, why would Kip be wearing a thick scarf that night? I should make a note of that in case I forget.")
+            msg ("<i>Willie's Testimony added to Inventory.</i>")
+            MakeObjectVisible (testimony)
+            AddToInventory (testimony)
+            testimony.received = true
+          }
+          else {
+            msg ("<b>Willie:</b> I don't know much about that, sorry.")
+          }
+        ]]></item>
+      </ask>
+      <test2 type="boolean">false</test2>
+    </object>
+    <object name="testimony">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <alias>Willie's Testimony</alias>
+      <look>Defendant was wearing a thick scarf and was in a rush when he took the food.</look>
+      <inventoryverbs type="stringlist">
+        <value>Look at</value>
+        <value>Show</value>
+      </inventoryverbs>
+      <take />
+      <received type="boolean">false</received>
+      <attr name="asked_inlobby" type="boolean">false</attr>
+      <show type="script"><![CDATA[
+        msg ("<i>You present Willie's testimony.</i>")
+        if (defendant.inlobby = true) {
+          testimony.asked_inlobby = true
+          msg ("<b>Wright: </b>How were you dressed when you took the food from the delivery guy?")
+          msg ("<b>Kip: </b>Dressed? Uh, I was wearing the same thing I'm wearing now, a hoodie and jeans. You see, the police arrested me immediately so I didn't have any time to change. They didn't bring me any new clothes either so...")
+          msg ("<b>Wright: </b>Ack! Okay, okay! You weren't wearing anything else right, say, like a scarf?")
+          msg ("<b>Kip: </b>Why would I wear a scarf in this weather, Mr. Wright?")
+          msg ("<b>Wright: </b>I figured just as much.")
+        }
+        else if (Delivery Guy.onstand = true  and Delivery Guy.test2 = false) {
+          msg ("<b>Wright: </b>That's not what you told me yesterday in the restaurant Willie.")
+          msg ("<b>Willie: </b>Huh?")
+          msg ("<b>Wright: </b>I recorded what you told me yesterday, and you definitely said there was something weird about the defendant when he came to pick the food up.")
+          msg ("<b>Judge: </b>Hmm, that does seem to be the case. I'm not sure why you're holding back witness, but I'll need you to testify about the delivery again. And this time, more details please.")
+          msg ("<b>K: </b>...")
+          PrintCentered ("<br><b>Willie's Testimony: The delivery</b>")
+          msg ("<b>Statement 1: </b>When I got to the dorm the defendant was waiting in the lobby. He was wearing the same clothes he's wearing now so it must have been him who picked up the food yesterday.")
+          msg ("<b>Statement 2: </b>But he was also wearing a thick scarf that concealed his face, which was the weird thing I was referring to yesterday.")
+          Delivery Guy.test2 = true
+        }
+        else {
+          msg ("Hooray. Nothing happened!")
+        }
+      ]]></show>
+    </object>
+    <turnscript>
+      <enabled />
+      <script><![CDATA[
+        if (victim.dead = true and leather bag.asked_chinese = true and mustard.taken = true and old receipts.taken = true and mustard.asked_chinese = true and testimony.received = true and Autopsy Report.taken = true and Newspaper Article.taken = true and defendant.asked_bully = true) {
+          msg ("<br><br>It's getting late and you realize this is all the evidence you're going to find to solve this case. Visiting hours at the Detention Center are now over too, so you can't see Kip until tomorrow. Before heading to court, you decide you'll ask him about the <b>two pices of evidence</b> that make him look guilty. If he's been telling the truth about being innocent, that's all you'll need to win tomorrow's trial.")
+          MoveObject (defendant, Lobby)
+          MoveObject (wright, Lobby)
+        }
+      ]]></script>
+    </turnscript>
+  </object>
+  <object name="Dept">
+    <inherit name="editor_room" />
+    <alias>Department of Criminal Affairs</alias>
+    <visible type="boolean">false</visible>
+    <usedefaultprefix type="boolean">false</usedefaultprefix>
+    <prefix>the</prefix>
+    <firstenter type="script"><![CDATA[
+      msg ("You see Detective Gumshoe talking to the chief in the back of the room. He sees you and heads towards you.</br>")
+      msg ("<b>Gumshoe: </b>Hey pal! You're here to find out more about the murder right?")
+      msg ("<b>Wright:</b> Yeah, my client had no idea what actually happened.")
+      msg ("<b>Gumshoe: </b>I know pay, we tried to get something out of him all night, but he either doesn't know or is doing a great job of keeping quiet about it.")
+      msg ("Honestly, we've got some pretty <b>decisive evidence</b> and some info from other sources so the prosecution's got a pretty good case already. I've got some time to spare and I kind of feel bad for you, so ask me what you need to know!")
+      msg ("</br>Wow, Gumshoe's being really cooperative today. Might as well take advantage of that and ask him more about the things the defendant couldn't answer.")
+    ]]></firstenter>
+    <beforefirstenter type="script"><![CDATA[
+      PrintCentered ("<br><br><b>Phoenix Wright. March 3rd, 10:45am.</b></br>")
+    ]]></beforefirstenter>
+    <exitslistprefix>You can go to the</exitslistprefix>
+    <exit name="dorm_dept" alias="Dorm Room" to="Dorm room">
+      <inherit name="southdirection" />
+      <visible type="boolean">false</visible>
+    </exit>
+    <exit name="deten_dept" alias="Detention Center" to="det">
+      <inherit name="southeastdirection" />
+      <visible type="boolean">false</visible>
+      <lookonly type="boolean">false</lookonly>
+    </exit>
+    <exit name="chinese_dept" alias="Chinese Restaurant" to="Chinese">
+      <inherit name="southwestdirection" />
+      <visible type="boolean">false</visible>
+      <lookonly type="boolean">false</lookonly>
+    </exit>
+    <object name="Gumshoe">
+      <inherit name="editor_object" />
+      <inherit name="male" />
+      <scenery />
+      <onstand type="boolean">false</onstand>
+      <askdefault type="script"><![CDATA[
+        if (defendant.incourt = true) {
+          msg ("You can't just talk to anyone when court is in session!")
+        }
+        else {
+          msg ("<b>Gumshoe:</b> Come on pal, I can't just tell you anything and everything. Ask me some basic questions and maybe I'll give you some hints to the case!")
+        }
+      ]]></askdefault>
+      <ask type="scriptdictionary">
+        <item key="crime what happened last night murder"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else {
+            msg ("<b>Gumshoe: </b>The defendant may not have been of much help with evidence, but we did some digging and found out the facts. The victim was poisoned.")
+            msg ("<b>Wright:</b> Poisoned? With what?")
+            msg ("<b>Gumshoe: </b>Get this, by eating mustard with his Chinese food!")
+            msg ("<b>Wright: </b>Mustard? In Chinese food?")
+            msg ("<b>Gumshoe: </b>Yup. Apparently the defendant was the one who ordered the food and was the only one who knew the victim loved putting mustard on everything he eats. <b>The mustard packs</b> we found in their dorm all have the defendant's fingerprints on it. ")
+            msg ("<b>Wright:</b> Isn't it possible that the delivery guy put the poison in the mustard beforehand?")
+            msg ("<b>Gumshoe: </b>Not a chance pal, we checked with the place and they explicitly told us that they don't serve mustard with their food, obviously. If you want to read the facts for yourself, here's the <b>Autopsy Report</b>.")
+            MakeObjectVisible (Autopsy Report)
+            Autopsy Report.taken = true
+            AddToInventory (Autopsy Report)
+          }
+        ]]></item>
+        <item key="evidence"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else {
+            msg ("<b>Gumshoe:</b> Woah sorry pal. The prosecution wouldn't want me revealing anything about the evidence or witnesses to the defense.</br> Tell you what, I'll tell you the address of the scene of the crime and the restaurant that's linked to it and you can go find out yourself, okay?")
+            MakeExitVisible (dept_chinese)
+            MakeExitVisible (dept_dorm)
+            MakeExitVisible (chinese_dept)
+            MakeExitVisible (dorm_dept)
+            MakeExitVisible (chinese_dorm)
+          }
+        ]]></item>
+        <item key="victim Dizas"><![CDATA[
+          if (defendant.incourt = true) {
+            msg ("You can't just talk to anyone when court is in session!")
+          }
+          else {
+            msg ("<b>Gumshoe:</b> The victim was a real whiz kid, pal. Dizas Spearbone was set to become the next prodigy in the business world.")
+            msg ("<b>Wright:</b> Could you tell me more about his background?")
+            msg ("<b>Gumshoe: </b>Well he was the heir to the Spearbone Corporation. You've heard the name right? With such a huge company to inherit and the brains to run it, he had a real bright future ahead of him. In fact, he interned there last summer and played a critical role in the company's acquisition of one of their biggest rivals, <b>Tycoon Corp</b>!")
+            msg ("<b>Wright: </b>Wow, that's quite the story.")
+            msg ("<b>Gumshoe: </b>Sure is pal, it made front page and everything. Here's a copy of te <b>news article</b> that covered the whole story.")
+            MakeObjectVisible (Newspaper Article)
+            AddToInventory (Newspaper Article)
+            Newspaper Article.taken = true
+          }
+        ]]></item>
+      </ask>
+    </object>
+    <object name="Autopsy Report">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <inventoryverbs type="stringlist">
+        <value>Look at</value>
+        <value>Show</value>
+      </inventoryverbs>
+      <drop type="boolean">false</drop>
+      <look>Died somewhere between 11:30pm and midnight by consuming poisonous mustard.</look>
+      <taken type="boolean">false</taken>
+      <show type="script"><![CDATA[
+        msg ("<i>You present the leather bag.</i>")
+        msg ("Hooray, nothing happened.")
+      ]]></show>
+    </object>
+    <object name="Newspaper Article">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <inventoryverbs type="stringlist">
+        <value>Look at</value>
+        <value>Show</value>
+      </inventoryverbs>
+      <look>Legendary student Dizas Spearbone heads Spearbone Corporation's successful takeover of rival company, Tycoon Corp!</look>
+      <drop type="boolean">false</drop>
+      <show type="script"><![CDATA[
+        msg ("<i>You present the Newspaper Article.</i>")
+        if (wright.finalevidence = true) {
+          msg ("<b>Wright: </b>Here's my final proof.")
+          msg ("<b>K: </b>A newspaper article? What does that have to do with the witness?")
+          msg ("<b>Wright: </b>Your name is Robert Tike right? Do you haave any relation to Tycoon Corp?")
+          msg ("<b>Robert: </b>.... None.")
+          msg ("<b>Wright: </b>Really? Well, that's unfortunate. Because had you said yes, you'd have the motivation for murder alright. After all, Dizas was the man who brought about their downfall. But just in case, we can run a background check and....")
+          msg ("<b>Robert: ENOUGH!</b>")
+          msg ("<b>Wright: </b>?")
+          msg ("<b>Judge: </b>?")
+          msg ("<b>K: </b>...!")
+          msg ("<b>Robert: </b>Yes, that was my father's company. Yes, I murdered him to bring back the honor of my ruined family by ridding the world of the one who caused it all! YES, IT WAS ME. I DON'T CARE ANYMORE NOW. DO WHAT YOU WANT, JUDGE. LAY DOWN THE VERDICT ALREADY!!")
+          msg ("<br><b>Judge: </b>Has the witness been arrested, prosecutor?")
+          msg ("<b>K: </b>He is currently in police custody, Your Honor.")
+          msg ("<b>Judge: </b>In that case, I declare the defendant, Kip Treblemike <b>NOT GUILTY</b>.")
+          msg ("You came through. Kip is overjoyed, free of all the charges against him and can't thank you enough for helping him out. A job well done.")
+          finish
+        }
+        else {
+          msg ("Nothing happened.")
+        }
+      ]]></show>
+      <taken type="boolean">false</taken>
+    </object>
+  </object>
+  <verb>
+    <pattern>press</pattern>
+  </verb>
+  <verb>
+    <property>press</property>
+    <pattern>press</pattern>
+    <defaultexpression>"You can't press " + object.article + "."</defaultexpression>
+  </verb>
+  <walkthrough name="game completed">
+    <steps type="simplestringlist">
+      shout at kip
+      use computer
+      take bag
+      examine bag
+      add soy sauce pack
+      add mustard
+      ingest food
+      shout at kip
+      ask kip about victim
+      ask kip about bullying
+      ask kip about crime
+      go Criminal Affairs
+      ask gumshoe about evidence
+      ask gumshoe about crime
+      ask gumshoe about victim
+      go to dorm
+      ask floormate about victim
+      ask floormate about himself
+      ask floormate about defendant
+      ask floormate about himself
+      look at Defendant's Desk
+      look at Defendant's Desk
+      look at defendants bed
+      look at victims desk
+      look at leather bag
+      take mustard
+      take soy sauce
+      take old receipts
+      take leather bag
+      go Chinese Restaurant
+      ask cashier about last night
+      show attorney badge
+      ask Willie about defendant
+      show bag
+      show mustard
+      show mustard
+      show Willie's Testimony
+      press statement 1
+      press statement 2
+      press statement 3
+      press statement 4
+      press statement 5
+      show Willie's Testimony
+      show old receipts
+      show Receipt from Chinese Restaurant
+      press statement 2
+      show leather bag
+      show Newspaper Article
+    </steps>
+  </walkthrough>
+</asl>
